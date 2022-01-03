@@ -2,6 +2,7 @@ from model.project import Project
 
 
 def test_create_project(app, orm):
+    app.session.login("administrator", "root")
     old_projects = orm.get_projects_list()
     new_project = Project(project_name="project_name",
                           status="release",

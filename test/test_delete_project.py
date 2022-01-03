@@ -2,6 +2,7 @@ from model.project import Project
 
 
 def test_delete_first_project(app, orm):
+    app.session.login("administrator", "root")
     if len(orm.get_projects_list()) == 0:
         new_project = Project(project_name="project_name-1",
                               status="release",
