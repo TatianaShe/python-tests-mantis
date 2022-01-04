@@ -17,16 +17,14 @@ def test_delete_first_project(app, orm):
 
 
 def test_delete_first_project_soap(app, orm):
-    username = "Administrator"
-    password = "root"
-    if len(app.soap.get_project_list(username, password)) == 0:
+    if len(app.soap.get_project_list(app.config["webadmin"]["username"], app.config["webadmin"]["password"])) == 0:
         new_project = Project(project_name="project_name-1",
                               status="release",
                               inherit_global=True,
                               view_status="private",
                               description="description-1")
         app.project.create(new_project)
-    old_projects = app.soap.get_project_list(username, password)
+    old_projects = app.soap.get_project_list(app.config["webadmin"]["username"], app.config["webadmin"]["password"])
     app.project.delete()
-    new_project = app.soap.get_project_list(username, password)
+    new_project = app.soap.get_project_list(app.config["webadmin"]["username"], app.config["webadmin"]["password"])
     assert len(old_projects) - 1 == len(new_project)
