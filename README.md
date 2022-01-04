@@ -1,2 +1,2 @@
 # python-tests-mantis
-Tests fo Mantis (software-testing course)
+Tests for Mantis (software-testing course)
