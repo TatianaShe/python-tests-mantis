@@ -9,7 +9,6 @@ def random_project_name(prefix, maxlen):
 
 
 def test_create_project(app, orm):
-    # app.session.login("administrator", "root")
     old_projects = orm.get_projects_list()
     new_project = Project(project_name=random_project_name("project_name_", 10),
                           status="release",
@@ -22,13 +21,13 @@ def test_create_project(app, orm):
 
 
 def test_create_project_soap(app, orm):
-    old_projects = app.soap.get_project_list(app.config["webadmin"]["username"], app.config["webadmin"]["password"])
+    old_projects = app.soap.get_project_list()
     new_project = Project(project_name=random_project_name("project_name_", 10),
                           status="release",
                           inherit_global=True,
                           view_status="private",
                           description="description")
     app.project.create(new_project)
-    new_projects = app.soap.get_project_list(app.config["webadmin"]["username"], app.config["webadmin"]["password"])
+    new_projects = app.soap.get_project_list()
     old_projects.append(new_project)
     assert sorted(old_projects, key=Project.id_or_max) == sorted(new_projects, key=Project.id_or_max)

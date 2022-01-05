@@ -2,7 +2,6 @@ from model.project import Project
 
 
 def test_delete_first_project(app, orm):
-    # app.session.login("administrator", "root")
     if len(orm.get_projects_list()) == 0:
         new_project = Project(project_name="project_name-1",
                               status="release",
@@ -17,14 +16,14 @@ def test_delete_first_project(app, orm):
 
 
 def test_delete_first_project_soap(app, orm):
-    if len(app.soap.get_project_list(app.config["webadmin"]["username"], app.config["webadmin"]["password"])) == 0:
+    if len(app.soap.get_project_list()) == 0:
         new_project = Project(project_name="project_name-1",
                               status="release",
                               inherit_global=True,
                               view_status="private",
                               description="description-1")
         app.project.create(new_project)
-    old_projects = app.soap.get_project_list(app.config["webadmin"]["username"], app.config["webadmin"]["password"])
+    old_projects = app.soap.get_project_list()
     app.project.delete()
-    new_project = app.soap.get_project_list(app.config["webadmin"]["username"], app.config["webadmin"]["password"])
+    new_project = app.soap.get_project_list()
     assert len(old_projects) - 1 == len(new_project)
